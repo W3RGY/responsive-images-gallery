@@ -39,4 +39,58 @@ if (images.length) {
 			</div>
 		`;
 	});
+
+	const background = `
+		<div class="background swiper">
+			<div class="background__wrapper swiper-wrapper">
+				${backgroundSlides}
+			</div>
+		</div>
+	`;
+	const text = `
+		<div class="text swiper">
+			<div class="text__wrapper swiper-wrapper">
+				${textSlides}
+			</div>
+		</div>
+	`;
+
+	page.insertAdjacentHTML("afterbegin", background);
+	page.insertAdjacentHTML("beforeend", text);
+
+	let pageBgSlider = new Swiper('.background', {
+		speed: 500
+	});
+	let pageTextSlider = new Swiper('.text', {
+		effect: "fade",
+		fadeEffect: {
+			crossFade: true
+		},
+		speed: 100
+	});
+
+	// Controll
+	pageSlider.controller.control = pageBgSlider;
+	pageBgSlider.controller.control = pageTextSlider;
 }
+
+const speed = 800;
+document.addEventListener("click", function (e) {
+	const targetElement = e.target;
+	const textBlock = document.querySelector('.text');
+	textBlock.style.transitionDuration = `${speed}ms`;
+
+	// Open image
+	if (targetElement.closest('.slide')) {
+		const slide = targetElement.closest('.slide');
+		const slideImage = slide.querySelector('img');
+		const activeImage = document.querySelector('slide__picture.active');
+
+		if (slide.classList.contains('swiper-slide-active')) {
+			slideImage.classList.add('active');
+			textBlock.classList.add('active');
+		} else {
+			activeImage ? activeImage.classList.remove('active') : null;
+		}
+	}
+})
