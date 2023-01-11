@@ -1,4 +1,4 @@
-"use strick";
+"use strict";
 
 let pageSlider = new Swiper('.slider', {
 	speed: 1000,
